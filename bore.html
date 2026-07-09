@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Boredom Buster 👑</title>
+    <style>
+        body {
+            font-family: sans-serif;
+            background: #fda085;
+            color: #2d3436;
+            margin: 0;
+            padding: 15px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .main-title {
+            color: white;
+            text-align: center;
+            margin: 20px 0 5px 0;
+            font-size: 2rem;
+        }
+
+        .sub-title {
+            color: white;
+            text-align: center;
+            margin: 0 0 25px 0;
+            font-size: 1rem;
+            opacity: 0.9;
+        }
+
+        .card {
+            background: white;
+            max-width: 450px;
+            width: 100%;
+            border-radius: 15px;
+            padding: 20px;
+            box-sizing: border-box;
+            margin-bottom: 20px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            text-align: center;
+        }
+
+        h2 {
+            margin-top: 0;
+            color: #e67e22;
+            font-size: 1.3rem;
+        }
+
+        .btn {
+            background: #ff9f43;
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            font-size: 1rem;
+            font-weight: bold;
+            border-radius: 25px;
+            cursor: pointer;
+            margin-top: 10px;
+            display: inline-block;
+            width: 80%;
+        }
+
+        .btn-alt {
+            background: #00d2d3;
+        }
+
+        .btn-danger {
+            background: #ff6b6b;
+        }
+
+        .box-text {
+            font-size: 1.1rem;
+            line-height: 1.5;
+            margin: 15px 0;
+            font-weight: 500;
+            background: #f9f9f9;
+            padding: 12px;
+            border-radius: 8px;
+            min-height: 40px;
+        }
+    </style>
+</head>
+<body>
+
+    <h1 class="main-title">Mood Fixer Zone 📱</h1>
+    <p class="sub-title">Scroll down to kill your boredom instantly!</p>
+
+    <!-- SECTION 1: JOKES -->
+    <div class="card">
+        <h2>Desi Joke Generator 💬</h2>
+        <div class="box-text" id="joke-box">Gharwale bolte hain: 'Paisa ped par nahi ugta!' Main: Toh fir Bank wale itni saari 'Branches' kyun kholte hain? 😂</div>
+        <button class="btn" onclick="nextJoke()">Ek Aur Sunao! 🔄</button>
+    </div>
+
+    <!-- SECTION 2: THE RED BUTTON -->
+    <div class="card">
+        <h2>Is Button Ko Mat Dabana! 🛑</h2>
+        <p style="color: #7f8c8d; margin: 0;">Seriously bol raha hoon, mat touch karo.</p>
+        <div class="box-text" id="button-box" style="color: #c0392b; font-weight: bold;">...</div>
+        <button class="btn btn-danger" onclick="hitButton()">DO NOT PRESS 🔴</button>
+    </div>
+
+    <!-- SECTION 3: DECIDER -->
+    <div class="card">
+        <h2>Abhi Kya Karein? 🤷‍♀️</h2>
+        <div class="box-text" id="decide-box">Click below to get a funny activity option!</div>
+        <button class="btn btn-alt" onclick="nextDecision()">Give Me an Idea 🎯</button>
+    </div>
+
+    <!-- START OF QUIZ CARD -->
+<div class="card" style="background: white; max-width: 450px; width: 100%; border-radius: 15px; padding: 20px; box-sizing: border-box; margin-bottom: 20px; box-shadow: 0 5px 15px rgba(0,0,0,0.1); text-align: center;">
+    <h2 style="margin-top: 0; color: #6c5ce7; font-size: 1.3rem;">Dimag Chalao Quiz 🧠🏆</h2>
+    <div style="display: inline-block; background: #2ed573; color: white; padding: 4px 10px; border-radius: 10px; font-size: 0.85rem; margin-bottom: 10px; font-weight: bold;">Score: <span id="score-val">0</span></div>
+    
+    <!-- Question Box -->
+    <div class="box-text" id="quiz-question-box" style="font-size: 1.1rem; line-height: 1.5; margin: 15px 0; font-weight: 500; background: #f9f9f9; padding: 12px; border-radius: 8px; min-height: 40px;">Loading question...</div>
+    
+    <!-- Answer Buttons Container -->
+    <div id="quiz-options-box" style="display: flex; flex-direction: column; gap: 10px; margin-top: 15px;"></div>
+    
+    <!-- Feedback Msg -->
+    <div id="quiz-feedback-box" style="margin-top: 10px; font-weight: bold; font-size: 1rem; min-height: 24px;"></div>
+    
+    <!-- Next Button -->
+    <button class="btn" id="next-quiz-btn" onclick="loadNextQuestion()" style="display:none; width: 60%; background: #6c5ce7; color: white; border: none; padding: 12px 24px; font-size: 1rem; font-weight: bold; border-radius: 25px; cursor: pointer; margin-top: 10px;">Next Question ➡️</button>
+</div>
+<!-- END OF QUIZ CARD -->
+
+
+    <script>
+        // Array Data
+        var jokesList = [
+            "Gharwale bolte hain: 'Paisa ped par nahi ugta!'\nMain: Toh fir Bank wale itni saari 'Branches' kyun kholte hain? 😂",
+            "Teacher: 'Aliens dharti par kab aayenge?'\nPappu: 'Sir jab unke paas passport, visa aur aadhar card ban jayega!' 👽",
+            "Doctor: 'Aapka wazan badh gaya hai, roz 5 KM chaliye.'\nPatient: 'Sir subah ya shaam?'\nDoctor: 'Chupchaap bina pooche chaliye!' 🏃‍♂️",
+            "Pappu ne dost se poocha: 'Bhai, ye 14 Feb ko kya hota hai?'\nDost: 'Bhai, is din dukanwale phoolon ke daam aise badhate hain jaise unme sona mila ho!' 💐",
+            "Mom: 'Batao, sabse zyada jhoot kab bola jata hai?'\n Me: 'Exam se pehle jab sab bolte hain - Bhai maine toh kuch bhi nahi padha!' 📚",
+            "Duniya ka sabse bada jhoot:\nBas 5 minute mein pahunch raha hoon!' 🚗💨",
+            "पति: तुमसे शादी करके मुझे एक बहुत बड़ा फ़ायदा हुआ।'\n पत्नी:कौन सा फ़ायदा?\nपति:मुझे मेरे गुनाहों की सज़ा इसी जन्म में मिल गई!",
+            "तुम्हारे बिना हम अधूरे हैं, जैसे बिना कचौरी के आलू की पूरी है।",
+            "तुम्हारे दिल की गहराई में डूबा था, तभी याद आया तैरना नहीं आता।"
+        ];
+
+        var decisionsList = [
+            "Mujhe ek mast ajeeb sa meme dhoodh kar WhatsApp par bhejo abhi! 📲",
+            "Utho aur ek glass paani piyo, bohot der se scroll kar rahi ho! 💧",
+            "Apne kisi favourite gaane par room mein akele faltu wala dance karo! 💃",
+            "Chalo, aankhein band karo aur 2 minute ke liye shanti se so jao! 😴",
+            "Apne kisi dost ko text karo: 'Mujhe sab pata chal gaya hai' aur fir phone side rakh do! 😈"
+        ];
+
+        var clickCounts = 0;
+        var alertsList = [
+            "Maine bola tha na mat dabaao! 😡",
+            "Dubara dabaya?! Sunte nahi ho kya? 😤",
+            "Ab bas karo, screen toot jayega! 📱🔨",
+            "Okay, ab agar tumne dabaya toh tumhari kal ki saari neend gayab! 🧙‍♂️",
+            "Bhai sahab! Maan gaye aapki zidd ko. Aap jeet gaye! 🏆"
+        ];
+
+        var i = 0;
+        // Functions
+        function nextJoke() {
+            if(i == 8){
+                i = 0;
+            }else{
+                i++;
+            }
+            document.getElementById('joke-box').innerText = jokesList[i];
+        }
+
+        function nextDecision() {
+            var r = Math.floor(Math.random() * decisionsList.length);
+            document.getElementById('decide-box').innerText = decisionsList[r];
+        }
+
+        function hitButton() {
+            if(clickCounts < alertsList.length) {
+                document.getElementById('button-box').innerText = alertsList[clickCounts];
+                clickCounts++;
+            } else {
+                document.getElementById('button-box').innerText = "Error 404: Brain not found. 🧠❌";
+                clickCounts = 0;
+            }
+        }
+
+        // --- TOUGH QUIZ ENGINE DATA & LOGIC ---
+var quizQuestions = [
+    {
+        q: "Wo kya hai jise aap kaatne ke baad gaana gaane lagte hain?",
+        options: ["Cake", "Birthday Boy", "Pyaaz", "Call / Phone Call"],
+        correct: 0,
+        rightMsg: "Sahi pakde! Cake kaatne par sab 'Happy Birthday' gaate hain! 🎂",
+        wrongMsg: "Galat! Pyaaz kaatne par rote hain, gaate nahi! 😂"
+    },
+    {
+        q: "Ek dukanwala ek chauklet 1 rupaye mein deta hai. Aap 3 chauklet ke wrappers (chhilke) badle mein dekar 1 free chauklet le sakte ho. Agar aapke paas 15 rupaye hain, toh aap total kitni chauklet kha sakte ho?",
+        options: ["15", "19", "21", "22"],
+        correct: 2,
+        rightMsg: "Superb Genius! 15 cash se + 5 wrappers se + 1 un bache hue wrappers se = Total 21! 🍫",
+        wrongMsg: "Galat jawab! Math thoda kamzor hai. Sahi jawab 21 hai! 🤓"
+    },
+    {
+        q: "Aisi kaun si cheez hai jise jitna saaf karo, wo utni hi kaali (black) dikhti hai?",
+        options: ["Blackboard", "Koyla", "Kadhai", "Joota"],
+        correct: 0,
+        rightMsg: "Wah! Bilkul sahi dimag lagaya, Blackboard hi hai wo! 📋",
+        wrongMsg: "Nahi re! Blackboard ko jitna saaf karoge wo utna black chamkega. ❌"
+    },
+    {
+        q: "Ek andhere kamre mein ek mombatti (candle), ek laalten (lantern) aur ek diya hai. Aapke paas sirf ek maachis ki teeli (matchstick) hai. Aap sabse pehle kya jalaoge?",
+        options: ["Mombatti", "Laalten", "Diya", "Maachis ki teeli"],
+        correct: 3,
+        rightMsg: "Baap re! Bohot tej dimaag! Sabse pehle maachis ki teeli hi jalani padegi! 🪵",
+        wrongMsg: "Dhyan se socho! Bina teeli jalaye baki cheezein kaise jalengi? 🕯️"
+    }
+];
+
+var currentQuizIdx = 0;
+var score = 0;
+
+function initQuiz() {
+    var currentQ = quizQuestions[currentQuizIdx];
+    document.getElementById('quiz-question-box').innerText = currentQ.q;
+    document.getElementById('quiz-feedback-box').innerText = "";
+    document.getElementById('next-quiz-btn').style.display = "none";
+    
+    var optionsBox = document.getElementById('quiz-options-box');
+    optionsBox.innerHTML = ""; 
+    
+    currentQ.options.forEach(function(opt, index) {
+        var btn = document.createElement('button');
+        btn.style.cssText = "background: #f1f2f6; color: #2d3436; border: 2px solid #ced6e0; padding: 10px; font-size: 0.95rem; border-radius: 10px; cursor: pointer; font-weight: 500; transition: all 0.2s;";
+        btn.innerText = opt;
+        btn.onclick = function() { checkAnswer(index); };
+        optionsBox.appendChild(btn);
+    });
+}
+
+function checkAnswer(selectedIndex) {
+    var currentQ = quizQuestions[currentQuizIdx];
+    var feedbackBox = document.getElementById('quiz-feedback-box');
+    
+    var buttons = document.getElementById('quiz-options-box').querySelectorAll('button');
+    buttons.forEach(function(b) { b.disabled = true; b.style.opacity = "0.6"; });
+
+    if(selectedIndex === currentQ.correct) {
+        feedbackBox.style.color = "#2ed573";
+        feedbackBox.innerText = currentQ.rightMsg;
+        score += 10;
+        document.getElementById('score-val').innerText = score;
+    } else {
+        feedbackBox.style.color = "#ff4757";
+        feedbackBox.innerText = currentQ.wrongMsg;
+    }
+    
+    document.getElementById('next-quiz-btn').style.display = "inline-block";
+}
+
+function loadNextQuestion() {
+    currentQuizIdx = (currentQuizIdx + 1) % quizQuestions.length;
+    initQuiz();
+}
+
+// Add this single line at the very end of your script to make the quiz boot up automatically:
+window.addEventListener('DOMContentLoaded', initQuiz);
+
+    </script>
+</body>
+</html>
